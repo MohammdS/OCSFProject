@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PrimaryController">
+    <children>
+        <Label text="Movie Manager" />
+        <HBox spacing="10">
+            <VBox spacing="5">
+                <Label text="Title:" />
+                <Label text="Director:" />
+                <Label text="Description:" />
+                <Label text="Show Date:" />
+                <Label text="Show Time:" />
+                <Label text="Price:" />
+                <Label text="Is Online:" />
+                <Label text="Movie ID (for changing showtime):" />
+            </VBox>
+            <VBox spacing="5">
+                <TextField fx:id="titleField" />
+                <TextField fx:id="directorField" />
+                <TextArea fx:id="descriptionField" />
+                <DatePicker fx:id="showDatePicker" />
+                <HBox spacing="5">
+                    <Spinner fx:id="showTimeHourSpinner" />
+                    <Label text=":" />
+                    <Spinner fx:id="showTimeMinuteSpinner" />
+                </HBox>
+                <TextField fx:id="priceField" />
+                <CheckBox fx:id="isOnlineCheckBox" />
+                <TextField fx:id="movieIdField" />
+            </VBox>
+        </HBox>
+        <Button text="Add Movie" fx:id="addButton" />
+        <Button text="Show Movies" fx:id="showButton" />
+        <Button text="Delete Movie" fx:id="deleteButton" />
+        <Button text="Change Showtime" fx:id="changeShowtimeButton" />
+        <ListView fx:id="movieListView" />
+    </children>
+</VBox>
