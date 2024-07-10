@@ -21,14 +21,21 @@ public class Movie {
     @Column(name = "release_year")
     private int releaseYear;
 
-    private int showtime;
-
-    // Constructors, getters, and setters
-
+    // Default constructor
     public Movie() {
     }
 
+    // Constructor for creating new movies (ID will be generated)
     public Movie(String title, String director, String genre, int releaseYear) {
+        this.title = title;
+        this.director = director;
+        this.genre = genre;
+        this.releaseYear = releaseYear;
+    }
+
+    // Constructor for creating movie instances with an existing ID
+    public Movie(int id, String title, String director, String genre, int releaseYear) {
+        this.id = id;
         this.title = title;
         this.director = director;
         this.genre = genre;
@@ -74,5 +81,10 @@ public class Movie {
 
     public void setReleaseYear(int releaseYear) {
         this.releaseYear = releaseYear;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Movie{id=%d, title='%s', director='%s', genre='%s', releaseYear=%d}", id, title, director, genre, releaseYear);
     }
 }

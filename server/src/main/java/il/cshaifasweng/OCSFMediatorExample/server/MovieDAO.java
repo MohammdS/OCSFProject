@@ -1,6 +1,5 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,12 +27,13 @@ public class MovieDAO {
         sessionFactory = configuration.buildSessionFactory(serviceRegistry);
     }
 
-    public void addMovie(Movie movie) {
+    public Movie addMovie(Movie movie) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.save(movie);
         transaction.commit();
         session.close();
+        return movie;
     }
 
     public void deleteMovie(int movieId) {
@@ -45,6 +45,13 @@ public class MovieDAO {
         }
         transaction.commit();
         session.close();
+    }
+
+    public Movie getMovieById(int movieId) {
+        Session session = sessionFactory.openSession();
+        Movie movie = session.get(Movie.class, movieId);
+        session.close();
+        return movie;
     }
 
     public List<Movie> getAllMovies() {
