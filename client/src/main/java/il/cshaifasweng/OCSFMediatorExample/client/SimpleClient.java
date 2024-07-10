@@ -6,6 +6,7 @@ import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,14 +35,15 @@ public class SimpleClient extends AbstractClient {
 			movieList.clear();
 			for (int i = 1; i < parts.length; i++) {
 				System.out.println(parts[i]);
-				// Assuming toString() format is: Movie{id=1, title='Inception', director='Christopher Nolan', genre='Sci-Fi', releaseYear=2010}
 				String[] movieParts = parts[i].split(", ");
 				int id = Integer.parseInt(movieParts[0].split("=")[1]);
 				String title = movieParts[1].split("'")[1];
 				String director = movieParts[2].split("'")[1];
-				String genre = movieParts[3].split("'")[1];
-				int year = Integer.parseInt(movieParts[4].split("=")[1].replace('}', ' ').trim());
-				movieList.add(new Movie(id, title, director, genre, year));
+				String description = movieParts[3].split("'")[1];
+				LocalDateTime showtime = LocalDateTime.parse(movieParts[4].split("'")[1]);
+				int price = Integer.parseInt(movieParts[5].split("=")[1]);
+				boolean isOnline = Boolean.parseBoolean(movieParts[6].split("=")[1].replace('}', ' ').trim());
+				movieList.add(new Movie(id, title, director, description, showtime, price, isOnline));
 			}
 		} else {
 			System.out.println("Operation failed: " + response);
@@ -56,11 +58,15 @@ public class SimpleClient extends AbstractClient {
 	}
 
 	public void addMovie(Movie movie) {
-		sendMessage(String.format("add|%s|%s|%s|%d", movie.getTitle(), movie.getDirector(), movie.getGenre(), movie.getReleaseYear()));
+		sendMessage(String.format("add|%s|%s|%s|%s|%d|%b", movie.getTitle(), movie.getDirector(), movie.getDescription(), movie.getShowtime().toString(), movie.getPrice(), movie.isOnline()));
 	}
 
 	public void deleteMovie(int movieId) {
 		sendMessage(String.format("delete|%d", movieId));
+	}
+
+	public void changeShowtime(int movieId, LocalDateTime newShowtime) {
+		sendMessage(String.format("changeShowtime|%d|%s", movieId, newShowtime.toString()));
 	}
 
 	public void showMovies() {

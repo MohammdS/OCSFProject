@@ -47,6 +47,14 @@ public class MovieDAO {
         session.close();
     }
 
+    public void updateMovie(Movie movie) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.update(movie);
+        transaction.commit();
+        session.close();
+    }
+
     public Movie getMovieById(int movieId) {
         Session session = sessionFactory.openSession();
         Movie movie = session.get(Movie.class, movieId);

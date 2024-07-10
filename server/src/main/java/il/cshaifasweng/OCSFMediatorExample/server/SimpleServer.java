@@ -6,6 +6,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class SimpleServer extends AbstractServer {
@@ -34,23 +35,23 @@ public class SimpleServer extends AbstractServer {
 			handleDeleteMovie(msgString, client);
 		} else if (msgString.startsWith("show")) {
 			handleShowMovies(client);
+		} else if (msgString.startsWith("changeShowtime")) {
+			handleChangeShowtime(msgString, client);
 		}
 	}
 
 	private void handleAddMovie(String msg, ConnectionToClient client) {
-		// Expected format: add|title|director|genre|releaseYear
+		// Expected format: add|title|director|description|showtime|price|isOnline
 		String[] parts = msg.split("\\|");
-		if (parts.length == 5) {
+		if (parts.length == 7) {
 			String title = parts[1];
 			String director = parts[2];
-			String genre = parts[3];
-			int releaseYear = Integer.parseInt(parts[4]);
+			String description = parts[3];
+			LocalDateTime showtime = LocalDateTime.parse(parts[4]);
+			int price = Integer.parseInt(parts[5]);
+			boolean isOnline = Boolean.parseBoolean(parts[6]);
 
-			Movie movie = new Movie();
-			movie.setTitle(title);
-			movie.setDirector(director);
-			movie.setGenre(genre);
-			movie.setReleaseYear(releaseYear);
+			Movie movie = new Movie(title, director, description, showtime, price, isOnline);
 
 			Movie savedMovie = movieDAO.addMovie(movie);
 			sendResponse(client, "success|" + savedMovie.toString());
@@ -79,6 +80,26 @@ public class SimpleServer extends AbstractServer {
 			response.append("|").append(movie.toString());
 		}
 		sendResponse(client, response.toString());
+	}
+
+	private void handleChangeShowtime(String msg, ConnectionToClient client) {
+		// Expected format: changeShowtime|movieId|newShowtime
+		String[] parts = msg.split("\\|");
+		if (parts.length == 3) {
+			int movieId = Integer.parseInt(parts[1]);
+			LocalDateTime newShowtime = LocalDateTime.parse(parts[2]);
+
+			Movie movie = movieDAO.getMovieById(movieId);
+			if (movie != null) {
+				movie.setShowtime(newShowtime);
+				movieDAO.updateMovie(movie);
+				sendResponse(client, "success|" + movie.toString());
+			} else {
+				sendResponse(client, "failure|Movie not found");
+			}
+		} else {
+			sendResponse(client, "failure|Invalid change showtime request format");
+		}
 	}
 
 	private void sendResponse(ConnectionToClient client, String response) {

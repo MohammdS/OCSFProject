@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "movies")
@@ -15,31 +16,41 @@ public class Movie {
     @Column(name = "director")
     private String director;
 
-    @Column(name = "genre")
-    private String genre;
+    @Column(name = "description")
+    private String description;
 
-    @Column(name = "release_year")
-    private int releaseYear;
+    @Column(name = "showtime")
+    private LocalDateTime showtime;
+
+    @Column(name = "price")
+    private int price;
+
+    @Column(name = "is_online")
+    private boolean isOnline;
 
     // Default constructor
     public Movie() {
     }
 
     // Constructor for creating new movies (ID will be generated)
-    public Movie(String title, String director, String genre, int releaseYear) {
+    public Movie(String title, String director, String description, LocalDateTime showtime, int price, boolean isOnline) {
         this.title = title;
         this.director = director;
-        this.genre = genre;
-        this.releaseYear = releaseYear;
+        this.description = description;
+        this.showtime = showtime;
+        this.price = price;
+        this.isOnline = isOnline;
     }
 
     // Constructor for creating movie instances with an existing ID
-    public Movie(int id, String title, String director, String genre, int releaseYear) {
+    public Movie(int id, String title, String director, String description, LocalDateTime showtime, int price, boolean isOnline) {
         this.id = id;
         this.title = title;
         this.director = director;
-        this.genre = genre;
-        this.releaseYear = releaseYear;
+        this.description = description;
+        this.showtime = showtime;
+        this.price = price;
+        this.isOnline = isOnline;
     }
 
     // Getters and setters
@@ -67,24 +78,40 @@ public class Movie {
         this.director = director;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getDescription() {
+        return description;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public int getReleaseYear() {
-        return releaseYear;
+    public LocalDateTime getShowtime() {
+        return showtime;
     }
 
-    public void setReleaseYear(int releaseYear) {
-        this.releaseYear = releaseYear;
+    public void setShowtime(LocalDateTime showtime) {
+        this.showtime = showtime;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean isOnline) {
+        this.isOnline = isOnline;
     }
 
     @Override
     public String toString() {
-        return String.format("Movie{id=%d, title='%s', director='%s', genre='%s', releaseYear=%d}", id, title, director, genre, releaseYear);
+        return String.format("Movie{id=%d, title='%s', director='%s', description='%s', showtime='%s', price=%d, isOnline=%b}", id, title, director, description, showtime, price, isOnline);
     }
 }
