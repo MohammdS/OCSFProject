@@ -1,6 +1,5 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -63,10 +62,6 @@ public class PrimaryController {
 
     private SimpleClient client;
 
-    public PrimaryController() {
-        client = SimpleClient.getClient();
-    }
-
     @FXML
     private void initialize() {
         addButton.setOnAction(event -> handleAddMovie());
@@ -77,6 +72,10 @@ public class PrimaryController {
         // Initialize spinners for time selection
         showTimeHourSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 12));
         showTimeMinuteSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0));
+    }
+
+    public void setClient(SimpleClient client) {
+        this.client = client;
     }
 
     @FXML

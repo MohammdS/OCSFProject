@@ -12,10 +12,9 @@ import java.util.List;
 
 public class SimpleClient extends AbstractClient {
 
-	private static SimpleClient client = null;
 	private List<Movie> movieList = new ArrayList<>();
 
-	private SimpleClient(String host, int port) {
+	public SimpleClient(String host, int port) {
 		super(host, port);
 	}
 
@@ -50,13 +49,6 @@ public class SimpleClient extends AbstractClient {
 		}
 	}
 
-	public static SimpleClient getClient() {
-		if (client == null) {
-			client = new SimpleClient("localhost", 3000);
-		}
-		return client;
-	}
-
 	public void addMovie(Movie movie) {
 		sendMessage(String.format("add|%s|%s|%s|%s|%d|%b", movie.getTitle(), movie.getDirector(), movie.getDescription(), movie.getShowtime().toString(), movie.getPrice(), movie.isOnline()));
 	}
@@ -83,16 +75,5 @@ public class SimpleClient extends AbstractClient {
 
 	public List<Movie> getMovies() {
 		return movieList;
-	}
-
-	public static void main(String[] args) {
-		SimpleClient client = SimpleClient.getClient();
-		try {
-			client.openConnection();
-			// Add your test logic here
-			client.closeConnection();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }
